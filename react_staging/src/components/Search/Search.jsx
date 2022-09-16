@@ -3,27 +3,33 @@ import axios from 'axios'
 
 export default class Search extends Component {
 
-    search = () => {
-        // 获取用户的输入
-        const { value } = this.keyWordElement
-        console.log(value)
-        // 发送请求
-        axios.get(`https://api.github.com/search/users?q=${value}`).then(
-            response => {
-                {console.log('success',response.data);}
-                this.props.saveUsers(response.data.items)
-            },
-            error => { console.log('fail', error); }
-        )
-    }
+	search = ()=>{
+		//获取用户的输入(连续解构赋值+重命名)
+		const {keyWordElement:{value:keyWord}} = this
+		//发送请求前通知App更新状态
+		this.props.updateAppState({isFirst:false,isLoading:true})
+		//发送网络请求（）
+		axios.get(`https://github.com/search/users?q=${keyWord}`).then(
+			response => {
+				//请求成功后通知App更新状态
+				this.props.updateAppState({isLoading:false,users:response.data.items})
+			},
+			error => {
+				//请求失败后通知App更新状态
+				this.props.updateAppState({isLoading:false,err:error.message})
+			}
+		)
+	}
 
-    render() {
-        return (
-            <div style={{ textAlign: 'center' }} >
-                <h3>搜索GitHub用户</h3>
-                <input ref={c => this.keyWordElement = c} type="text" placeholder='输入用户名' />&nbsp;&nbsp;&nbsp;
-                <button onClick={this.search}>搜索</button>
-            </div>
-        )
-    }
+	render() {
+		return (
+			<section className="jumbotron">
+				<h3 style={{textAlign:'center'}} className="jumbotron-heading">搜索github用户</h3>
+				<div style={{ textAlign: 'center' }}>
+					<input ref={c => this.keyWordElement = c} type="text" placeholder="输入关键词点击搜索"/>&nbsp;
+					<button onClick={this.search}>搜索</button>
+				</div>
+			</section>
+		)
+	}
 }

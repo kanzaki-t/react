@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数组件使用props</title>
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <div id="root3"></div>
+
+    <!-- 引入react核心库 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- 引入propTypes，用于对组件标签进行限制 -->
+    <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        function Person(props) {
+            const {name,sex,age}= props
+            return (
+                <ul>
+                    <li>名前：{name}</li>
+                    <li>性別：{sex}</li>
+                    <li>年齢：{age}</li>
+                </ul>
+            )
+        }
+        // 渲染组件到页面
+        ReactDOM.render(<Person name={'tom'} sex={'男'} age={18} />, document.getElementById('root1'))
+        ReactDOM.render(<Person name={'jack'} sex={'男'} age={20} />, document.getElementById('root2'))
+
+        // 假设从数据库拿到如下一组数据p，想要反应到root3上的写法，
+        // 虽然<...展开运算符>不可以展开对象，由于React核心库和babel的影响，React里<...展开运算符>也可以展开对象,
+        // 此时的{}只是用于写js语句的环境，并不是用于复制对象的展开运算符特殊语法，
+        // 虽然由于React核心库和babel的影响，React里<...展开运算符>也可以展开对象,
+        // 但是并不是react可以随便使用<...展开运算符>，只能在标签里使用
+        const p = { name: 'dataname', age: 99, sex: 'dataname' }
+        ReactDOM.render(<Person {...p} />, document.getElementById('root3'))
+    </script>
+</body>
+
+</html>

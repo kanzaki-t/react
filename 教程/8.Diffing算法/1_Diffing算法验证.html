@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_Diffing算法验证</title>
+    
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root"></div>
+
+    <!-- 引入react核心库 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Time extends React.Component {
+            state = {
+                date: new Date()
+            }
+
+            componentDidMount() {
+                setInterval(() => {
+
+                    // 更新状态
+                    this.setState({ date: new Date() })
+
+                }, 1000);
+            }
+
+
+            // render调用的时机：初始化渲染和状态更新
+            render() {
+
+                console.log('Count------ render')
+                return (
+                    <div>
+                        <h2>hello</h2>
+                        <input type="text" />   
+                        <span>现在是：{this.state.date.toTimeString()}</span>                 
+                    </div>
+                )
+            }
+        }
+
+        // 渲染组件
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Time />)
+    </script>
+</body>
+
+</html>

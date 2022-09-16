@@ -1,0 +1,18 @@
+
+1.废弃钩子
+componentWillMount
+componentWillReceiveProps
+componentWillUpdate
+
+这些生命周期方法经常被误解和滥用；此外，我们预计，在异步渲染中，它们潜在的误用问题可
+能更大。我们将在即将发布的版本中为这些生命周期添加 “UNSAFE_” 前缀。（这里的 “unsafe”
+不是指安全性，而是表示使用这些生命周期的代码在 React 的未来版本中更有可能出现 bug，尤
+其是在启用异步渲染之后。）
+
+UNSAFE_componentWillMount
+UNSAFE_componentWillReceiveProps
+UNSAFE_componentWillUpdate
+
+2.新钩子
+getDerivedStateFromProps
+getSnapshotBeforeUpdate

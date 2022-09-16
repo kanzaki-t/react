@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root"></div>
+
+    <!-- 引入react核心库 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Life extends React.Component {
+
+            death = () => {
+                
+                // 卸载组件
+                ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+            }
+
+            state = {
+                opacity: 1
+            }
+
+            // 组件挂载完毕调用，并只调用一次
+            componentDidMount() {
+                this.timer = setInterval(() => {
+                    // 获取状态
+                    let { opacity } = this.state
+                    // 减少0.1
+                    opacity -= 0.1
+                    if (opacity <= 0) opacity = 1
+                    // 设置新的透明度
+                    this.setState({ opacity })
+                },200);
+            }
+
+            // 组件将要卸载时
+            componentWillUnmount(){
+                // 清楚定时器
+                clearInterval(this.timer)
+            }
+
+
+            // render调用的时机：初始化渲染和状态更新
+            render() {
+                return (
+                    <div>
+                        <h2 style={{ opacity: this.state.opacity }}>どんどん消えていく</h2>
+                        <button onClick={this.death}>コンポーネント消す</button>
+                    </div>
+                )
+            }
+        }
+
+        // 渲染组件
+        ReactDOM.render(<Life />, document.getElementById('root'))
+    </script>
+</body>
+
+</html>

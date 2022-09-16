@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_state</title>
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root"></div>
+
+    <!-- 引入react核心库 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 1.创建组件
+        class Weather extends React.Component {
+
+            // 初始化状态
+            state = {
+                isHot: true,
+                wind: '風が強い'
+            }
+
+            // 自定义方法-----要用赋值语句的方法+箭头函数
+            // 箭头函数里没有自己的this，里面的this是指向外层的this
+            changeWeather = () => {
+                // 获取原来的ishot值
+                const isHot = this.state.isHot
+                // 严重注意:状态不可直接更改,必须通过setState更新，且是一种合并，不是替换
+                this.setState({ isHot: !isHot })
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h1 onClick={this.changeWeather}>今日は{this.state.isHot ? '暑い' : '涼しい'},{this.state.wind}</h1>
+                    </div>
+                )
+            }
+        }
+
+        // 2.渲染组件到页面
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <React.StrictMode>
+                <Weather />
+            </React.StrictMode>
+        );
+
+
+
+    </script>
+
+</body>
+
+</html>

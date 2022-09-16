@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3_回调ref 的回调次数问题</title>
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root"></div>
+
+    <!-- 引入react核心库 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Demo extends React.Component {
+
+            state = {
+                isHot:false
+            }
+
+            
+
+            // 展示左侧输入框的数据
+            showDate = () => {
+                const { input1 } = this
+                alert(input1.value)
+            }
+
+            changeWeather = () => {
+                const {isHot} = this.state
+                this.setState ({isHot: !isHot})
+            }
+
+            saveInput = (c) => {
+                this.input1 = c;
+                console.log('@',c);
+            }
+
+            render() {
+
+                const {isHot} = this.state
+
+                return (
+                    <div>
+                        <h2>今日は{isHot ? '暑い' : '涼しい'}</h2>
+                        {/* <input ref={(c) => {this.input1 = c;console.log('@',c);}} type="text" placeholder='点击按钮提示数据' />&nbsp;
+                         --经常使用写法，更新一次，回调2次-- */}
+                        <input ref={this.saveInput} type="text" placeholder='点击按钮提示数据' />&nbsp;
+                        <button onClick={this.showDate}>点我提示左侧的数据</button>&nbsp;
+                        <button onClick={this.changeWeather}>点我切换天气</button>
+                    </div>
+                )
+            }
+        }
+
+        //渲染组件到页面
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <React.StrictMode>
+                <Demo />
+            </React.StrictMode>
+        );
+
+    </script>
+
+</body>
+
+</html>

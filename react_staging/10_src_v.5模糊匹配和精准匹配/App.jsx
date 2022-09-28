@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch,Redirect} from 'react-router-dom' //react-router是版本5
+import { Route, Switch } from 'react-router-dom' //react-router是版本5
 import About from './pages/About/About'
 import Home from './pages/Home/Home'
 import MyNavLink from './components/MyNavLink/MyNavLink'
@@ -26,8 +26,8 @@ export default class App extends Component {
 
               {/* 在React中靠 路由链接 实现切换组件--编写路由链接
                   标签体实际在this.props里以children:""的形式传递，所以MyNavLink组件{...this.props}可以收到 */}
-              <MyNavLink to="/about" >About</MyNavLink><br />
-              <MyNavLink to="/home" >Home</MyNavLink>
+              <MyNavLink to="/about">About</MyNavLink><br />
+              <MyNavLink to="/home/b/a">Home</MyNavLink>
             </div>
           </div>
           <div className="col-xs-6">
@@ -35,9 +35,8 @@ export default class App extends Component {
               <div className="panel-body">
                 {/* 注册路由 Switch可以提高路由匹配效率(单一匹配)。 */}
                 <Switch>
-                  <Route  path="/about" component={About} />
-                  <Route  path="/home" component={Home} />
-                  <Redirect to="/about" />
+                  <Route exact={true} path="/about" component={About} />
+                  <Route exact path="/home" component={Home} />
                 </Switch>
               </div>
             </div>

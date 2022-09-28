@@ -26,8 +26,8 @@ export default class App extends Component {
 
               {/* 在React中靠 路由链接 实现切换组件--编写路由链接
                   标签体实际在this.props里以children:""的形式传递，所以MyNavLink组件{...this.props}可以收到 */}
-              <MyNavLink to="/about" >About</MyNavLink><br />
-              <MyNavLink to="/home" >Home</MyNavLink>
+              <MyNavLink to="/about">About</MyNavLink><br />
+              <MyNavLink to="/home/b/a">Home</MyNavLink>
             </div>
           </div>
           <div className="col-xs-6">

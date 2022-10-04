@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, HashRouter, Route, Routes, } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, } from 'react-router-dom'
 import Login from '../vierws/login/Login'
 import NewsSandBox from '../vierws/sandbox/NewsSandBox'
 

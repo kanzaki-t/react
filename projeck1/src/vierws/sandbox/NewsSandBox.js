@@ -23,10 +23,10 @@ export default function NewsSandBox() {
                 
                 <TopHeader />
 
-                <Content className="site-layout-background" style={{margin: '24px 16px',padding: 24,minHeight: 280,}}>
+                <Content className="site-layout-background" style={{margin: '24px 16px',padding: 24,minHeight: 280,overflow:'auto'}}>
 
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route path="/home" element={<Home />} />
                         <Route path="/user-manage/list" element={<UserList />} />
                         <Route path="/right-manage/role/list" element={<RoleList />} />
                         <Route path="/right-manage/right/list" element={<RightList />} />

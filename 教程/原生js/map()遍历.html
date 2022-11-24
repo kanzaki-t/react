@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map()遍历</title>
+</head>
+<body>
+    <script type="text/javascript">
+        let refineList = [
+            {
+                id:12345,
+                refineData:[
+                    {
+                    src:{uid:55555}
+                    }
+                ]
+            },
+            {
+                id:67890,
+                refineData:[
+                    {
+                    src:{uid:66666}
+                    }
+                ]
+            },
+        ]
+
+        const list = refineList.map(result => {
+            return [result.id,result.refineData[0].src]
+        })
+
+        console.log(list);
+
+        const list2 = list.map(data => {
+            let x=data[1].uid
+            let y=data[0]
+            console.log(x,y);
+        })
+
+
+    </script>
+</body>
+</html>

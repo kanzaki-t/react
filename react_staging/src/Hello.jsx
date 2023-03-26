@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 export default class Hello extends Component {
   constructor(props) {
     super(props);
-    
+
     // 判断是否有参数传入
     const hasParams = props.params && Object.keys(props.params).length > 0;
 
     // 初始化 state
     this.state = {
-      obj:  {},
+      obj: {},
       rows: hasParams ? Object.entries(props.params).map(([key, value]) => ({ key, value })) : [{ key: "", value: "" }]
     };
 
@@ -26,13 +26,17 @@ export default class Hello extends Component {
   };
 
   handleDeleteRow = (index) => {
-    this.setState((prevState) => ({
-      rows: prevState.rows.filter((row, i) => i !== index),
-    }));
+    const { rows } = this.state;
+    if (rows.length > 1) {
+      this.setState((prevState) => ({
+        rows: prevState.rows.filter((row, i) => i !== index),
+      }));
+    }
+
   };
 
   handleInputChange = (index, e) => {
-    const { value,name } = e.target;
+    const { value, name } = e.target;
     this.setState((prevState) => {
       const { rows } = prevState;
       rows[index][name] = value; // 更新指定行的指定 key 的值
@@ -42,18 +46,42 @@ export default class Hello extends Component {
 
   // 提交数据
   handleSubmit = () => {
-    const { obj, rows } = this.state;
-    const newObj = {};
-    rows.forEach((row) => {
+    const { rows } = this.state;
+
+    // 判断是否所有行的 input 均为空
+    const isAllEmpty = rows.every((row) => row.key === "" && row.value === "");
+
+    if (isAllEmpty) {
+      // 如果所有行的 input 均为空，则重置 rows 数组为只有一行
+      this.setState({ rows: [{ key: "", value: "" }] });
+    } else {
+      // // 否则，筛选出 input 不为空的行，更新 rows 数组
+      // const nonEmptyRows = rows.filter((row) => row.key !== "" && row.value !== "");
+      // this.setState({ rows: nonEmptyRows });
+
+      
+      // 否则，筛选出 input 不为空的行，更新 rows 数组
+      const nonEmptyRows = rows.filter((row) => row.key !== "" && row.value !== "");
+      // 筛选出key不相等的行
+      const uniqueRows = nonEmptyRows.filter((row, index, self) => {
+        return self.findIndex((r) => r.key === row.key) === index;
+      });
+      this.setState({ rows: uniqueRows });
+    }
+
+    // 把rows整合成对象
+    const { obj } = this.state;
+    const newObj = rows.reduce((acc, row) => {
       if (row.key && row.value) {
-        newObj[row.key] = row.value;
+        acc[row.key] = row.value;
       }
-    });
-    this.setState({ obj: { ...obj, ...newObj }, rows: [{ key: "", value: "" }] });
+      return acc;
+    }, {});
+    this.setState({ obj: { ...obj, ...newObj } });
   };
 
   render() {
-    const {  rows } = this.state;
+    const { rows } = this.state;
     return (
       <div>
         {
@@ -75,7 +103,7 @@ export default class Hello extends Component {
               <button onClick={() => this.handleDeleteRow(index)}>-</button>
             </div>
           ))}
-          <button onClick={() => this.handleSubmit()}>handleSubmit</button>
+        <button onClick={() => this.handleSubmit()}>handleSubmit</button>
       </div>
     );
   }
